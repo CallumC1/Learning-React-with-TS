@@ -20,27 +20,35 @@ export default function Board() {
   function handleClick(i: number) {
 
     // Checks if the square is already filled or if there is a winner
-
-
     if (calculateWinner(squares) || squares[i]) {
       return;
-    } 
-
+    }
+    
     const nextSquares = squares.slice();
-
+    
     if(xIsNext) {
       nextSquares[i] = "X";
     } else {
       nextSquares[i] = "O";
     }
     setSquares(nextSquares);
-
+    
     // Flips the value of xIsNext to change the player
     setXisNext(!xIsNext);
   }
-
+  
+  
+  const winner = calculateWinner(squares);
+  let status;
+  if (winner) {
+    status = "Winner: " + winner;
+  } else {
+    status = "Next player: " + (xIsNext ? "X" : "O");
+  }
+  
   return (
     <>
+      <div className="status">{status}</div>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={()=> handleClick(0)} />
         <Square value={squares[1]} onSquareClick={()=> handleClick(1)} />
@@ -58,6 +66,9 @@ export default function Board() {
       </div>
     </>
   );
+
+
+
 }
 function calculateWinner(squares: any) {
 
